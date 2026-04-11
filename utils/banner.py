@@ -36,7 +36,7 @@ def banner():
 """
 
     for line in info.split("\n"):
-        print(line.center(90))
+        print(line)
         time.sleep(0.02)
 
     print(Fore.GREEN + "━" * 90)
