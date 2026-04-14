@@ -5,7 +5,7 @@ from core import ports_scan
 
 def main():
     domain = domain_info.domain()
-    ports_scan.ports_Scanner(domain)
+    ports_scan.ports_scanner(domain)
     
     
 if __name__ == "__main__":
