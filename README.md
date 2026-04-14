@@ -20,5 +20,3 @@
 
 ## 🚀 Usage
 
-```bash
-python netspecter.py -t 192.168.1.1 -p 1-1000

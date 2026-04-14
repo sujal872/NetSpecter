@@ -30,3 +30,5 @@ def domain():
 
     except socket.gaierror:
         print("Could not resolve domain.")
+
+    return domain    
