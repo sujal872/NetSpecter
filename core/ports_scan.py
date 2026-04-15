@@ -2,7 +2,6 @@ import socket
 import threading
 from datetime import datetime
 
-# Lock for safe printing (important in threading)
 lock = threading.Lock()
 
 open_ports = 0
@@ -30,7 +29,7 @@ def scan_port(ip, port):
         pass
 
 
-def ports_scanner(domain):
+def ports_scanner(domain,S_p,E_p):
     global open_ports, closed_ports
     
     ip = socket.gethostbyname(domain)
@@ -43,7 +42,7 @@ def ports_scanner(domain):
     threads = []
 
     try:
-        for port in range(80, 100):
+        for port in range(S_p, E_p):
             t = threading.Thread(target=scan_port, args=(ip, port))
             threads.append(t)
             t.start()

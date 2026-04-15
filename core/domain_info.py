@@ -2,6 +2,8 @@ import socket
 
 def domain():
     domain = input("Enter a domain: ").strip()
+    start_port = int(input("Enter a start port : "))
+    End_port = int(input("Enter a End port : "))
 
     try:
         ipv4 = socket.gethostbyname(domain)
@@ -31,4 +33,4 @@ def domain():
     except socket.gaierror:
         print("Could not resolve domain.")
 
-    return domain    
+    return domain,start_port,End_port
