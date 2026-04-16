@@ -1,19 +1,16 @@
 import socket
 
-def domain():
-    domain = input("Enter a domain: ").strip()
-    start_port = int(input("Enter a start port : "))
-    End_port = int(input("Enter a End port : "))
-
+def domain(target):
+    # target = input("Enter a target: ").strip()
     try:
-        ipv4 = socket.gethostbyname(domain)
+        ipv4 = socket.gethostbyname(target)
         try:
-            ipv6 = socket.getaddrinfo(domain, None, socket.AF_INET6)[0][4][0]
+            ipv6 = socket.getaddrinfo(target, None, socket.AF_INET6)[0][4][0]
         except:
             ipv6 = "Not available"
-        print("\n===== DOMAIN LOOKUP =====")
+        print("\n===== target LOOKUP =====")
 
-        print(f"Domain: {domain}")
+        print(f"target: {target}")
         print(f"IPv4: {ipv4}")
         print(f"IPv6: {ipv6}")
 
@@ -31,6 +28,6 @@ def domain():
         print(f"Hostname: {hostname}")
 
     except socket.gaierror:
-        print("Could not resolve domain.")
+        print("Could not resolve target.")
 
-    return domain,start_port,End_port
+   

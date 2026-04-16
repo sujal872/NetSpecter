@@ -29,7 +29,7 @@ def scan_port(ip, port):
         pass
 
 
-def ports_scanner(domain,S_p,E_p):
+def ports_scanner(domain,ports):
     global open_ports, closed_ports
     
     ip = socket.gethostbyname(domain)
@@ -42,7 +42,7 @@ def ports_scanner(domain,S_p,E_p):
     threads = []
 
     try:
-        for port in range(S_p, E_p):
+        for port in ports:
             t = threading.Thread(target=scan_port, args=(ip, port))
             threads.append(t)
             t.start()
