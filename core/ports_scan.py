@@ -33,6 +33,74 @@ COMMON_SERVICES = {
 }
 
 
+# Banner Grabbing
+def banner_grab(ip, port):
+
+    try:
+
+        s = socket.socket(
+            socket.AF_INET,
+            socket.SOCK_STREAM
+        )
+
+        s.settimeout(2)
+
+        s.connect((ip, port))
+
+        # HTTP Request
+        if port in [80, 8080, 8000]:
+
+            request = (
+                b"GET / HTTP/1.1\r\n"
+                b"Host: target\r\n"
+                b"Connection: close\r\n\r\n"
+            )
+
+            s.send(request)
+
+        banner = s.recv(4096).decode(
+            errors="ignore"
+        )
+
+        s.close()
+
+        if banner:
+            return banner.strip()[:200]
+
+        return "No Banner"
+
+    except:
+        return "No Banner"
+
+
+
+# Service Detection
+def service_detection(port, banner=""):
+
+    service = COMMON_SERVICES.get(
+        port,
+        "Unknown"
+    )
+
+    b = banner.lower()
+
+    if "apache" in b:
+        service = "Apache"
+
+    elif "nginx" in b:
+        service = "Nginx"
+
+    elif "openssh" in b:
+        service = "OpenSSH"
+
+    elif "mysql" in b:
+        service = "MySQL"
+
+    elif "ftp" in b:
+        service = "FTP"
+
+    return service
+
 
 
 # TCP Port Scanner
@@ -176,3 +244,143 @@ def tcp_scan(
         print(f"[-] Error: {e}")
 
 
+
+# UDP Scan
+def udp_scan(target, ports, verbose=False):
+
+    try:
+
+        ip = socket.gethostbyname(target)
+
+        print("-" * 60)
+        print(f"[+] Starting UDP Scan On {ip}")
+        print("-" * 60)
+
+        for port in ports:
+
+            try:
+
+                s = socket.socket(
+                    socket.AF_INET,
+                    socket.SOCK_DGRAM
+                )
+
+                s.settimeout(1)
+
+                s.sendto(b"test", (ip, port))
+
+                try:
+
+                    data, _ = s.recvfrom(1024)
+
+                    print(f"[+] UDP {port} OPEN")
+
+                except socket.timeout:
+
+                    if verbose:
+                        print(
+                            f"[-] UDP {port} OPEN|FILTERED"
+                        )
+
+                s.close()
+
+            except Exception as e:
+
+                if verbose:
+                    print(
+                        f"[ERROR] UDP {port}: {e}"
+                    )
+
+        print("\n[+] UDP Scan Finished")
+
+    except Exception as e:
+        print(f"[-] UDP Scan Error: {e}")
+
+
+
+# Basic OS Detection
+def os_guess(target):
+
+    print("\n" + "-" * 60)
+    print("[+] Basic OS Detection")
+    print("-" * 60)
+
+    try:
+
+        system = platform.system().lower()
+
+        # Windows
+        if system == "windows":
+            command = ["ping", "-n", "1", target]
+
+        # Linux
+        else:
+            command = ["ping", "-c", "1", target]
+
+        output = subprocess.check_output(
+            command,
+            universal_newlines=True
+        )
+
+        # Extract TTL
+        ttl_match = re.search(
+            r"ttl[=\s](\d+)",
+            output,
+            re.IGNORECASE
+        )
+
+        if ttl_match:
+
+            ttl = int(ttl_match.group(1))
+
+            print(f"[+] TTL Value : {ttl}")
+
+            if ttl <= 64:
+                print("[+] Possible OS : Linux/Unix")
+
+            elif ttl <= 128:
+                print("[+] Possible OS : Windows")
+
+            else:
+                print(
+                    "[+] Possible OS : Cisco/Network Device"
+                )
+
+        else:
+            print("[-] TTL Value Not Found")
+
+    except Exception as e:
+        print(f"[-] OS Detection Failed: {e}")
+
+
+
+# Save Results
+def save_results(filename):
+
+    try:
+        with open(f'results/{filename}', "w") as f:
+
+            f.write(
+                "========== NetSpecter Scan ==========\n\n"
+            )
+
+            for result in scan_results:
+
+                f.write(
+                    f"Port    : {result['port']}\n"
+                )
+
+                f.write(
+                    f"Service : {result['service']}\n"
+                )
+
+                f.write(
+                    f"Banner  : {result['banner']}\n"
+                )
+
+                f.write("-" * 40 + "\n")
+
+        print(f"\n[+] Results Saved To {filename}")
+
+    except Exception as e:
+        print(f"[-] Save Failed: {e}")
