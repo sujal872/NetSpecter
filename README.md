@@ -120,7 +120,9 @@ python main.py example.com -v
 --- Save Results ---
 python main.py example.com -T -B -S -o result.txt
 
-🛠 Command Line Arguments
+```
+
+# 🛠 Command Line Arguments
 
 Argument	Description
 -T	        Enable TCP Scan
@@ -133,7 +135,9 @@ Argument	Description
 -o	        Save Results To File
 -O	        Basic OS Guess
 
---- 📸 Example Output
+# 📸 Example Output
+
+```bash
 [+] TCP 22 OPEN
     Banner : SSH-2.0-OpenSSH_8.2
     Service: OpenSSH
@@ -142,16 +146,20 @@ Argument	Description
     Banner : HTTP/1.1 200 OK
     Service: Apache
 
-🧪 Tested On
-Kali Linux
-Ubuntu
-Windows 10/11
-Metasploitable 2
-Local Virtual Labs
-
 ```
 
+# 🧪 Tested On
+
+- Kali Linux
+- Ubuntu
+- Windows 10/11
+- Metasploitable 2
+- Local Virtual Labs
+
+
+
 # 📌 Planned Features
+
 - SYN Stealth Scan
 - Async Scanning Engine
 - Advanced OS Fingerprinting
