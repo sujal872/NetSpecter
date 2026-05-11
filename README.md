@@ -121,19 +121,21 @@ python main.py example.com -v
 python main.py example.com -T -B -S -o result.txt
 
 ```
-
 # 🛠 Command Line Arguments
 
-Argument	Description
--T	        Enable TCP Scan
--U	        Enable UDP Scan
--B	        Enable Banner Grabbing
--S	        Enable Service Detection
--p	        Select Ports
--f	        Fast Scan Mode
--v	        Verbose Output
--o	        Save Results To File
--O	        Basic OS Guess
+| Argument | Description              |
+| -------- | ------------------------ |
+| `-T`     | Enable TCP Scan          |
+| `-U`     | Enable UDP Scan          |
+| `-B`     | Enable Banner Grabbing   |
+| `-S`     | Enable Service Detection |
+| `-p`     | Select Ports             |
+| `-f`     | Fast Scan Mode           |
+| `-v`     | Verbose Output           |
+| `-o`     | Save Results To File     |
+| `-O`     | Basic OS Guess           |
+
+
 
 # 📸 Example Output
 
